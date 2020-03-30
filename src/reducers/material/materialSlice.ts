@@ -10,7 +10,7 @@ export type MaterialInfo = {
   price: number
   type: MaterialType
   unit: MaterialUnit
-  bardCode: string
+  barCode: string
 }
 
 export type Material = {
@@ -50,7 +50,7 @@ function loadingFailed(state: MaterialState, action: PayloadAction<string>) {
   state.error = action.payload
 }
 
-export const addMaterial = (info: Material): AppThunk => async (dispatch) => {
+export const addMaterial = (info: MaterialInfo): AppThunk => async (dispatch) => {
   try {
     dispatch(addMaterialStart())
     const material = await api.addMaterial(info)

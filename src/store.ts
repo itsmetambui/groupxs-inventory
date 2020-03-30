@@ -13,7 +13,7 @@ const persistConfig = {
 
 const middleware = [
   ...getDefaultMiddleware({
-    thunk: false,
+    thunk: true,
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },

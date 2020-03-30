@@ -14,11 +14,9 @@ function App() {
             </div>
           }
         >
-          <div className="pt-14">
-            <Switch>
-              <Route exact path="/" component={Home} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={Home} />
+          </Switch>
         </Suspense>
       </Router>
     </div>
