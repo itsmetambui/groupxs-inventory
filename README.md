@@ -15,10 +15,57 @@
 [Axios](https://github.com/axios/axios) as a proper Http client  
 [Prettier](https://github.com/prettier/prettier) because it's just too helpful
 
-## Main features
+### Features I've implemented:
 
-## Project structure
+- Add new material with type, price, unit, and barcode.
+- Update a material
+- Delete a material
+- Checkin an amount of material to an inventory.
+- Checkout an amount of material out of an inventory.
+- Get all available materials: This is actually stored in localstorage with redux-persist. And this can be done with an action with redux-thunk in production.
 
-## To be improved
+## Features I haven't implemented:
+Following features are missing since I didn’t think of multiple inventories beforehand (thank you Nicolai for cleared that up).
+
+- Add new inventory with its name, nominal/min/max stock.
+- Get all inventories.
+- Update an inventory information (name, nominal/min/max stock)
+- Delete an inventory.
+- Transfer material’s stock between inventory.
+- Validation and confirmation.
+
+## Propose solution:
+- Introducing a new slice to the redux store, called inventories, and it stores an object represent all the inventories (normalized from an array).
+```typescript
+type Material = {
+  price: number
+  type: string
+  unit: string
+  barCode: string
+}
+
+type Inventory = {
+  id: string,
+  name: string,
+  nominal: number,
+  min: number,
+  max: number,
+  materials: Material[]
+}
+
+type Inventories = {
+  [key: string]: Inventory
+}
+```
+- A create inventory button, that show a modal with inputs to create new inventory. When submit will dispatch an action with thunk middleware and add key value pair to above object.
+- Display all managed inventories in a table, and display support actions for each row.
+- Edit/Delete an inventory can be implemented by dispatch an action to update/remove the key from above object.
+- Add a select box to select focused inventory, detail information and its stocked materials will be display in another table.
+- Add a new button called Transfer to each row, when clicked, show an input to enter the amount to transfer and a select box to choose what inventory should be transfered to.
+- When submit, dispatch an action to query for the material in each inventory and update the stock accordingly. In addition to this, we can normalize the materials properties for faster query.
+- Should add validation for inventory's min, max, nominal when transfering, checkin, or checkout.
+
+Please comment if I missed any required features.
 
 ### That's it, thank you for reading, happy hacking 🎉
+
