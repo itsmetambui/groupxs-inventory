@@ -2,19 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AppThunk } from "../../store"
 import * as api from "../../api/material"
 
-export enum MaterialType {}
-
-export enum MaterialUnit {}
-
 export type MaterialInfo = {
   price: number
-  type: MaterialType
-  unit: MaterialUnit
+  type: string
+  unit: string
   barCode: string
 }
 
 export type Material = {
-  id: string | undefined
+  id: string
 } & MaterialInfo
 
 type MaterialState = {
@@ -41,10 +37,10 @@ const materialSlice = createSlice({
     updateMaterialStart: startLoading,
     updateMaterialFailed: loadingFailed,
     updateMaterialSuccess: (state: MaterialState, action: PayloadAction<Material>): void => {
-      let material = state.materials.find((material) => material.id === action.payload.id)
-      if (material) {
-        material = action.payload
-      }
+      state.materials = state.materials.map((material) => {
+        if (material.id === action.payload.id) return action.payload
+        else return material
+      })
     },
   },
 })
