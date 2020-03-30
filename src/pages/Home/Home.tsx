@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-8">
       <h1 className="text-3xl text-blue-500">GroupXS inventory</h1>
       <div>
         <div className="flex flex-row justify-between items-align">

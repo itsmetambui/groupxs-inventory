@@ -42,6 +42,12 @@ const materialSlice = createSlice({
         else return material
       })
     },
+    deleteMaterialStart: startLoading,
+    deleteMaterialFailed: loadingFailed,
+    deleteMaterialSuccess: (state: MaterialState, action: PayloadAction<string>): void => {
+      const id = action.payload
+      state.materials = state.materials.filter((material) => material.id !== id)
+    },
   },
 })
 
@@ -74,6 +80,16 @@ export const updateMaterial = (id: string, info: MaterialInfo): AppThunk => asyn
   }
 }
 
+export const deleteMaterial = (id: string): AppThunk => async (dispatch) => {
+  try {
+    dispatch(deleteMaterialStart())
+    const deletedId = await api.deleteMaterial(id)
+    dispatch(deleteMaterialSuccess(deletedId))
+  } catch (err) {
+    dispatch(deleteMaterialFailed(err.toString()))
+  }
+}
+
 export const {
   addMaterialStart,
   addMaterialFailed,
@@ -81,6 +97,9 @@ export const {
   updateMaterialStart,
   updateMaterialFailed,
   updateMaterialSuccess,
+  deleteMaterialStart,
+  deleteMaterialFailed,
+  deleteMaterialSuccess,
 } = materialSlice.actions
 
 export default materialSlice

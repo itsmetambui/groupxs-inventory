@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { Table, Button, Modal } from "antd"
 import { AppState } from "../../reducers/rootReducer"
 import MaterialForm from "../MaterialForm/MaterialForm"
-import { Material, MaterialInfo, updateMaterial } from "../../reducers/material/materialSlice"
+import { Material, MaterialInfo, updateMaterial, deleteMaterial } from "../../reducers/material/materialSlice"
 
 type MaterialTableState = {
   isUpdateModalOpen: boolean
@@ -37,11 +37,11 @@ function reducer(state: MaterialTableState, action: { type: string; payload?: Ma
 const MaterialTable: React.FC = () => {
   const materials = useSelector((state: AppState) => state.material.materials)
   const [{ isUpdateModalOpen, selectedMaterial }, localDispatch] = useReducer(reducer, initialState)
-  const dispatch = useDispatch()
+  const globalDispatch = useDispatch()
 
   const onUpdateSubmit = ({ type, price, unit, barCode }: Material) => {
     const materialInfo: MaterialInfo = { price: price, type: type, unit: unit, barCode: barCode }
-    dispatch(updateMaterial(selectedMaterial!.id, materialInfo))
+    globalDispatch(updateMaterial(selectedMaterial!.id, materialInfo))
     localDispatch({ type: "CLOSE_UPDATE_MODAL" })
   }
 
@@ -70,14 +70,18 @@ const MaterialTable: React.FC = () => {
       title: "Action",
       key: "action",
       render: (text: string, record: Material) => (
-        <span>
-          <Button size="small" type="default" onClick={() => localDispatch({ type: "UPDATE_MATERIAL", payload: record })}>
-            Update
-          </Button>
-          <Button size="small" type="danger">
-            Delete
-          </Button>
-        </span>
+        <div className="flex flex-row flex-wrap -mx-1">
+          <span className="p-1">
+            <Button size="small" type="default" onClick={() => localDispatch({ type: "UPDATE_MATERIAL", payload: record })}>
+              Update
+            </Button>
+          </span>
+          <span className="p-1">
+            <Button size="small" type="danger" onClick={() => globalDispatch(deleteMaterial(record.id))}>
+              Delete
+            </Button>
+          </span>
+        </div>
       ),
     },
   ]

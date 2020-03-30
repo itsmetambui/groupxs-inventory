@@ -17,3 +17,8 @@ export const updateMaterial = async (id: string, material: MaterialInfo) => {
     ...material,
   }
 }
+
+export const deleteMaterial = async (id: string) => {
+  await sleep(1000)
+  return id
+}
