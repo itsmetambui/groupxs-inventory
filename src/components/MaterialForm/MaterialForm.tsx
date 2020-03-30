@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useForm, OnSubmit } from "react-hook-form"
 import { Material } from "../../reducers/material/materialSlice"
 
@@ -8,7 +8,14 @@ type MaterialFormProps = {
 }
 
 export default function MaterialForm<T>({ onSubmit, defaultValue }: MaterialFormProps) {
-  const { register, handleSubmit } = useForm<Material>()
+  const { register, handleSubmit, setValue } = useForm<Material>()
+
+  useEffect(() => {
+    setValue("type", defaultValue?.type)
+    setValue("unit", defaultValue?.unit)
+    setValue("price", defaultValue?.price)
+    setValue("barCode", defaultValue?.barCode)
+  }, [defaultValue, setValue])
 
   return (
     <form className="w-full max-w-sm pt-8" onSubmit={handleSubmit(onSubmit)}>
