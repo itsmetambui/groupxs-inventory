@@ -8,7 +8,10 @@ export const checkinInventory = async (materialId: string, stock: number) => {
   }
 }
 
-export const checkoutInventory = async (inventoryId: string) => {
+export const checkoutInventory = async (inventoryId: string, stock: number) => {
   await sleep(1000)
-  return inventoryId
+  return {
+    id: inventoryId,
+    stock,
+  }
 }

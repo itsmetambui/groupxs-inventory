@@ -7,7 +7,7 @@ type CheckinFormProps = {
   onSubmit: OnSubmit<InventoryParam>
 }
 
-export default function MaterialForm({ onSubmit }: CheckinFormProps) {
+export default function StockForm({ onSubmit }: CheckinFormProps) {
   const { register, handleSubmit } = useForm<InventoryParam>()
 
   return (
@@ -17,6 +17,7 @@ export default function MaterialForm({ onSubmit }: CheckinFormProps) {
         name="stock"
         type="number"
         defaultValue={1}
+        min={0}
         ref={register({ required: true, min: 1 })}
       />
 

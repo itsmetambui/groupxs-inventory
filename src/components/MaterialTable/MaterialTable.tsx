@@ -4,7 +4,7 @@ import { Table, Button, Modal } from "antd"
 
 import { AppState } from "../../reducers/rootReducer"
 import MaterialForm from "../MaterialForm/MaterialForm"
-import CheckinForm from "../CheckinForm/CheckinForm"
+import StockForm from "../StockForm/StockForm"
 import { Material, updateMaterial, deleteMaterial } from "../../reducers/material/materialSlice"
 import { InventoryParam, checkinInventory } from "../../reducers/inventory/inventorySlice"
 
@@ -21,7 +21,7 @@ const MaterialTable: React.FC = () => {
   }
 
   const onCheckinSubmit = ({ stock }: InventoryParam) => {
-    localDispatch({ type: ACTION_TYPE.HIDE_CHECKING_FORM, payload: selectedMaterial })
+    localDispatch({ type: ACTION_TYPE.HIDE_CHECKIN_FORM, payload: selectedMaterial })
     globalDispatch(checkinInventory(selectedMaterial!.id, stock))
   }
 
@@ -68,16 +68,16 @@ const MaterialTable: React.FC = () => {
               type="primary"
               onClick={() => {
                 if (displayCheckinFormMap[record.id]) {
-                  localDispatch({ type: ACTION_TYPE.HIDE_CHECKING_FORM, payload: record })
+                  localDispatch({ type: ACTION_TYPE.HIDE_CHECKIN_FORM, payload: record })
                 } else {
-                  localDispatch({ type: ACTION_TYPE.SHOW_CHECKING_FORM, payload: record })
+                  localDispatch({ type: ACTION_TYPE.SHOW_CHECKIN_FORM, payload: record })
                 }
               }}
             >
               {displayCheckinFormMap[record.id] ? "Cancel" : "Checkin"}
             </Button>
           </span>
-          {displayCheckinFormMap[record.id] && <CheckinForm onSubmit={onCheckinSubmit} />}
+          {displayCheckinFormMap[record.id] && <StockForm onSubmit={onCheckinSubmit} />}
         </div>
       ),
     },

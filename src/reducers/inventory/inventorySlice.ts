@@ -45,9 +45,17 @@ const inventorySlice = createSlice({
     },
     checkoutInventoryStart: startLoading,
     checkoutInventoryFailed: loadingFailed,
-    checkoutInventorySuccess: (state: InventoryState, action: PayloadAction<{ id: string }>): void => {
-      const { id } = action.payload
-      delete state.inventory[id]
+    checkoutInventorySuccess: (state: InventoryState, action: PayloadAction<InventoryParam>): void => {
+      const { id, stock } = action.payload
+      const numStock = +stock
+      if (numStock >= state.inventory[id].stock) {
+        delete state.inventory[id]
+      } else {
+        state.inventory[id] = {
+          stock: state.inventory[id].stock - numStock,
+          deliveryTime: new Date().toISOString(),
+        }
+      }
       state.isLoading = false
     },
   },
@@ -63,11 +71,11 @@ export const checkinInventory = (materialId: string, stock: number): AppThunk =>
   }
 }
 
-export const checkoutInventory = (inventoryId: string): AppThunk => async (dispatch) => {
+export const checkoutInventory = (inventoryId: string, stock: number): AppThunk => async (dispatch) => {
   try {
     dispatch(checkoutInventoryStart())
-    const id = await api.checkoutInventory(inventoryId)
-    dispatch(checkoutInventorySuccess({ id }))
+    const record = await api.checkoutInventory(inventoryId, stock)
+    dispatch(checkoutInventorySuccess({ id: record.id, stock: record.stock }))
   } catch (err) {
     dispatch(checkoutInventoryFailed(err.toString()))
   }

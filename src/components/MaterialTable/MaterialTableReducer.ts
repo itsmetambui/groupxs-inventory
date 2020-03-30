@@ -3,8 +3,8 @@ import { Material } from "../../reducers/material/materialSlice"
 export enum ACTION_TYPE {
   UPDATE_MATERIAL,
   CLOSE_UPDATE_MODAL,
-  SHOW_CHECKING_FORM,
-  HIDE_CHECKING_FORM,
+  SHOW_CHECKIN_FORM,
+  HIDE_CHECKIN_FORM,
 }
 
 type MaterialTableState = {
@@ -27,7 +27,7 @@ export default function reducer(state: MaterialTableState, action: { type: ACTIO
         isUpdateModalOpen: true,
         selectedMaterial: action.payload,
       }
-    case ACTION_TYPE.SHOW_CHECKING_FORM:
+    case ACTION_TYPE.SHOW_CHECKIN_FORM:
       return {
         ...state,
         displayCheckinFormMap: {
@@ -42,7 +42,7 @@ export default function reducer(state: MaterialTableState, action: { type: ACTIO
         isUpdateModalOpen: false,
         selectedMaterial: undefined,
       }
-    case ACTION_TYPE.HIDE_CHECKING_FORM:
+    case ACTION_TYPE.HIDE_CHECKIN_FORM:
       return {
         ...state,
         displayCheckinFormMap: {
