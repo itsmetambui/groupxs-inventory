@@ -5,6 +5,7 @@ import { Button, Modal } from "antd"
 
 import { addMaterial, MaterialInfo } from "../../reducers/material/materialSlice"
 import MaterialTable from "../../components/MaterialTable/MaterialTable"
+import InventoryTable from "../../components/InventoryTable/InventoryTable"
 import MaterialForm from "../../components/MaterialForm/MaterialForm"
 
 const Home: React.FC = () => {
@@ -26,6 +27,10 @@ const Home: React.FC = () => {
           <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => setIsAddMaterialModalOpen(true)}></Button>
         </div>
         <MaterialTable />
+      </div>
+      <div>
+        <h2 className="text-xl text-blue-500">Available materials</h2>
+        <InventoryTable />
       </div>
 
       <Modal

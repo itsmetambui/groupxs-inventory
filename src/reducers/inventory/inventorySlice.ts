@@ -1,6 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit"
 import { AppThunk } from "../../store"
 import * as api from "../../api/inventory"
+import { AppState } from "../rootReducer"
+import { Material } from "../material/materialSlice"
 
 export type InventoryParam = {
   id: string
@@ -12,10 +14,12 @@ type InventoryRecord = {
   deliveryTime: string
 }
 
+type InventoryMap = { [key: string]: InventoryRecord }
+
 type InventoryState = {
   isLoading: boolean
   error: string | null
-  inventory: { [key: string]: InventoryRecord }
+  inventory: InventoryMap
 }
 
 const initialState: InventoryState = {
@@ -59,6 +63,29 @@ function loadingFailed(state: InventoryState, action: PayloadAction<string>) {
   state.isLoading = false
   state.error = action.payload
 }
+
+const selectMaterials = (state: AppState) => state.material.materials
+const selectInventory = (state: AppState) => state.inventory.inventory
+
+export type InventorySelectorReturnType = {
+  id: string
+  stock: number
+  type: string
+  deliveryTime: string
+}
+export const inventorySelector = createSelector<AppState, Material[], InventoryMap, InventorySelectorReturnType[]>(
+  selectMaterials,
+  selectInventory,
+  (materials, inventory) => {
+    return Object.keys(inventory).map((key) => {
+      return {
+        id: key,
+        type: materials.find((material: Material) => material.id === key)!.type,
+        ...inventory[key],
+      }
+    })
+  },
+)
 
 export const { checkinInventoryStart, checkinInventoryFailed, checkinInventorySuccess } = inventorySlice.actions
 
