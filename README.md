@@ -7,8 +7,8 @@
 
 [Typescript](https://github.com/microsoft/TypeScript) because it's 2020  
 [React Router](https://github.com/ReactTraining/react-router) to handle client side routing  
-[Redux](https://github.com/reduxjs/react-redux) to handle State Management
-[Redux-toolkit](https://redux-toolkit.js.org/) to reduce Redux boilerplate
+[Redux](https://github.com/reduxjs/react-redux) to handle State Management, with [Redux-thunk](https://github.com/reduxjs/redux-thunk) middleware for async stuff  
+[Redux-toolkit](https://redux-toolkit.js.org/) to reduce Redux boilerplate  
 [Ant Design](https://github.com/ant-design/ant-design) for its very complete set of components  
 [Styled Components](https://github.com/styled-components/styled-components) to extend Ant's default component styling  
 [TailwindCSS](https://github.com/tailwindcss/tailwindcss) to elegantly handle the rest of your app's UI  
