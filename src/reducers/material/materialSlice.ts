@@ -32,12 +32,14 @@ const materialSlice = createSlice({
     addMaterialStart: startLoading,
     addMaterialFailed: loadingFailed,
     addMaterialSuccess: (state: MaterialState, action: PayloadAction<Material>): void => {
+      state.isLoading = false
       state.materials.push(action.payload)
     },
     updateMaterialStart: startLoading,
     updateMaterialFailed: loadingFailed,
     updateMaterialSuccess: (state: MaterialState, action: PayloadAction<Material>): void => {
       state.materials = state.materials.map((material) => {
+        state.isLoading = false
         if (material.id === action.payload.id) return action.payload
         else return material
       })
@@ -46,6 +48,7 @@ const materialSlice = createSlice({
     deleteMaterialFailed: loadingFailed,
     deleteMaterialSuccess: (state: MaterialState, action: PayloadAction<string>): void => {
       const id = action.payload
+      state.isLoading = false
       state.materials = state.materials.filter((material) => material.id !== id)
     },
   },

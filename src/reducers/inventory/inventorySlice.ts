@@ -21,12 +21,7 @@ type InventoryState = {
 const initialState: InventoryState = {
   isLoading: false,
   error: null,
-  inventory: {
-    materialId: {
-      stock: 10,
-      deliveryTime: "now",
-    },
-  },
+  inventory: {},
 }
 
 const inventorySlice = createSlice({
@@ -41,6 +36,7 @@ const inventorySlice = createSlice({
         stock,
         deliveryTime: new Date().toISOString(),
       }
+      state.isLoading = true
     },
   },
 })

@@ -5,7 +5,7 @@ import { Table, Button, Modal } from "antd"
 import { AppState } from "../../reducers/rootReducer"
 import MaterialForm from "../MaterialForm/MaterialForm"
 import CheckinForm from "../CheckinForm/CheckinForm"
-import { Material, MaterialInfo, updateMaterial, deleteMaterial } from "../../reducers/material/materialSlice"
+import { Material, updateMaterial, deleteMaterial } from "../../reducers/material/materialSlice"
 import { InventoryParam, checkinInventory } from "../../reducers/inventory/inventorySlice"
 
 type MaterialTableState = {
@@ -68,8 +68,8 @@ const MaterialTable: React.FC = () => {
   }
 
   const onCheckinSubmit = ({ stock }: InventoryParam) => {
+    localDispatch({ type: "HIDE_CHECKING_FORM", payload: selectedMaterial })
     globalDispatch(checkinInventory(selectedMaterial!.id, stock))
-    localDispatch({ type: "HIDE_CHECKING_FORM" })
   }
 
   const columns = [
