@@ -1,5 +1,6 @@
 import { combineReducers, PayloadAction } from "@reduxjs/toolkit"
 import materialSlice from "./material/materialSlice"
+import inventorySlice from "./inventory/inventory"
 
 export type PayloadActionWithResolve<T> = {
   onResolve?: (data?: any) => void
@@ -7,6 +8,7 @@ export type PayloadActionWithResolve<T> = {
 
 const rootReducer = combineReducers({
   material: materialSlice.reducer,
+  inventory: inventorySlice.reducer,
 })
 
 export type AppState = ReturnType<typeof rootReducer>
