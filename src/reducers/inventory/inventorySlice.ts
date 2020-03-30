@@ -2,6 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AppThunk } from "../../store"
 import * as api from "../../api/inventory"
 
+export type InventoryParam = {
+  id: string
+  stock: number
+}
+
 type InventoryRecord = {
   stock: number
   deliveryTime: string
@@ -30,9 +35,9 @@ const inventorySlice = createSlice({
   reducers: {
     checkinInventoryStart: startLoading,
     checkinInventoryFailed: loadingFailed,
-    checkinInventorySuccess: (state: InventoryState, action: PayloadAction<{ materialId: string; stock: number }>): void => {
-      const { materialId, stock } = action.payload
-      state.inventory[materialId] = {
+    checkinInventorySuccess: (state: InventoryState, action: PayloadAction<InventoryParam>): void => {
+      const { id, stock } = action.payload
+      state.inventory[id] = {
         stock,
         deliveryTime: new Date().toISOString(),
       }
@@ -44,7 +49,7 @@ export const checkinInventory = (materialId: string, stock: number): AppThunk =>
   try {
     dispatch(checkinInventoryStart())
     const record = await api.checkinInventory(materialId, stock)
-    dispatch(checkinInventorySuccess({ materialId: record.id, stock: record.stock }))
+    dispatch(checkinInventorySuccess({ id: record.id, stock: record.stock }))
   } catch (err) {
     dispatch(checkinInventoryFailed(err.toString()))
   }

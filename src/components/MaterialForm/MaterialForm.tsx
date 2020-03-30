@@ -7,7 +7,7 @@ type MaterialFormProps = {
   defaultValue?: Material
 }
 
-export default function MaterialForm<T>({ onSubmit, defaultValue }: MaterialFormProps) {
+export default function MaterialForm({ onSubmit, defaultValue }: MaterialFormProps) {
   const { register, handleSubmit, setValue } = useForm<Material>()
 
   useEffect(() => {

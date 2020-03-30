@@ -1,6 +1,6 @@
 import { combineReducers, PayloadAction } from "@reduxjs/toolkit"
 import materialSlice from "./material/materialSlice"
-import inventorySlice from "./inventory/inventory"
+import inventorySlice from "./inventory/inventorySlice"
 
 export type PayloadActionWithResolve<T> = {
   onResolve?: (data?: any) => void
