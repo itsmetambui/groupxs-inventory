@@ -1,13 +1,14 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
+import { configureStore, getDefaultMiddleware, Action } from "@reduxjs/toolkit"
+import { ThunkAction } from "redux-thunk"
 import storage from "redux-persist/lib/storage"
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
 
-import rootReducer from "./reducers/rootReducer"
+import rootReducer, { AppState } from "./reducers/rootReducer"
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["raceQuery"],
+  whitelist: ["material"],
 }
 
 const middleware = [
@@ -30,6 +31,8 @@ const store = configureStore({
 })
 
 export type AppDispatch = typeof store.dispatch
+export type AppThunk = ThunkAction<void, AppState, unknown, Action<string>>
+
 export const persistor = persistStore(store)
 
 export default store
