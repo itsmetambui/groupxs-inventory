@@ -47,11 +47,6 @@ const MaterialTable: React.FC = () => {
 
   const columns = [
     {
-      title: "Id",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
       title: "Type",
       dataIndex: "type",
       key: "type",
