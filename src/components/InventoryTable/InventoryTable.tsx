@@ -42,7 +42,7 @@ const MaterialTable: React.FC = () => {
   ]
   return (
     <div>
-      <Table columns={columns} dataSource={inventory} rowKey="id" />
+      <Table columns={columns} dataSource={inventory} rowKey="id" pagination={{ pageSize: 10 }} />
     </div>
   )
 }

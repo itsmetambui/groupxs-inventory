@@ -131,7 +131,7 @@ const MaterialTable: React.FC = () => {
   ]
   return (
     <div>
-      <Table columns={columns} dataSource={materials} rowKey="id" />
+      <Table columns={columns} dataSource={materials} rowKey="id" pagination={{ pageSize: 10 }} />
 
       <Modal
         visible={isUpdateModalOpen}

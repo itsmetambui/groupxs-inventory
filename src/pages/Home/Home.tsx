@@ -19,17 +19,16 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl text-blue-500">GroupXS inventory</h1>
-      <div>
-        <div className="flex flex-row justify-between items-align">
-          <h2 className="text-xl text-blue-500">Available materials</h2>
+    <div className="flex flex-row flex-wrap p-8 -mx-2">
+      <div className="w-1/2 px-2">
+        <div className="flex flex-row justify-start items-align">
+          <h2 className="pr-2 text-xl text-blue-500">Available materials</h2>
           <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => setIsAddMaterialModalOpen(true)}></Button>
         </div>
         <MaterialTable />
       </div>
-      <div>
-        <h2 className="text-xl text-blue-500">Available materials</h2>
+      <div className="w-1/2 px-2">
+        <h2 className="text-xl text-blue-500">Inventory</h2>
         <InventoryTable />
       </div>
 

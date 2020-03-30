@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { useForm, OnSubmit } from "react-hook-form"
 import { Material } from "../../reducers/material/materialSlice"
 
@@ -8,17 +8,15 @@ type MaterialFormProps = {
 }
 
 export default function MaterialForm({ onSubmit, defaultValue }: MaterialFormProps) {
-  const { register, handleSubmit, setValue } = useForm<Material>()
+  const { register, handleSubmit, reset } = useForm<Material>()
 
-  useEffect(() => {
-    setValue("type", defaultValue?.type)
-    setValue("unit", defaultValue?.unit)
-    setValue("price", defaultValue?.price)
-    setValue("barCode", defaultValue?.barCode)
-  }, [defaultValue, setValue])
+  const onFormSubmit = (data: Material) => {
+    onSubmit(data)
+    reset()
+  }
 
   return (
-    <form className="w-full max-w-sm pt-8" onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-full max-w-sm pt-8" onSubmit={handleSubmit(onFormSubmit)}>
       <div className="mb-6 md:flex md:items-center">
         <div className="md:w-1/4">
           <label className="block pr-4 mb-1 font-medium text-gray-700 md:text-right md:mb-0" htmlFor="type">
