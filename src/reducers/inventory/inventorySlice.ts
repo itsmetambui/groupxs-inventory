@@ -41,7 +41,14 @@ const inventorySlice = createSlice({
         stock: state.inventory[id] ? state.inventory[id].stock + numStock : numStock,
         deliveryTime: new Date().toISOString(),
       }
-      state.isLoading = true
+      state.isLoading = false
+    },
+    checkoutInventoryStart: startLoading,
+    checkoutInventoryFailed: loadingFailed,
+    checkoutInventorySuccess: (state: InventoryState, action: PayloadAction<{ id: string }>): void => {
+      const { id } = action.payload
+      delete state.inventory[id]
+      state.isLoading = false
     },
   },
 })
@@ -53,6 +60,16 @@ export const checkinInventory = (materialId: string, stock: number): AppThunk =>
     dispatch(checkinInventorySuccess({ id: record.id, stock: record.stock }))
   } catch (err) {
     dispatch(checkinInventoryFailed(err.toString()))
+  }
+}
+
+export const checkoutInventory = (inventoryId: string): AppThunk => async (dispatch) => {
+  try {
+    dispatch(checkoutInventoryStart())
+    const id = await api.checkoutInventory(inventoryId)
+    dispatch(checkoutInventorySuccess({ id }))
+  } catch (err) {
+    dispatch(checkoutInventoryFailed(err.toString()))
   }
 }
 
@@ -88,6 +105,13 @@ export const inventorySelector = createSelector<AppState, Material[], InventoryM
   },
 )
 
-export const { checkinInventoryStart, checkinInventoryFailed, checkinInventorySuccess } = inventorySlice.actions
+export const {
+  checkinInventoryStart,
+  checkinInventoryFailed,
+  checkinInventorySuccess,
+  checkoutInventoryStart,
+  checkoutInventoryFailed,
+  checkoutInventorySuccess,
+} = inventorySlice.actions
 
 export default inventorySlice

@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux"
 import { Table, Button } from "antd"
 
 import { AppState } from "../../reducers/rootReducer"
-import { inventorySelector, InventorySelectorReturnType } from "../../reducers/inventory/inventorySlice"
+import { inventorySelector, InventorySelectorReturnType, checkoutInventory } from "../../reducers/inventory/inventorySlice"
 
 const MaterialTable: React.FC = () => {
   const inventory = inventorySelector(useSelector((state: AppState) => state))
-  // const globalDispatch = useDispatch()
+  const globalDispatch = useDispatch()
 
   const columns = [
     {
@@ -32,8 +32,8 @@ const MaterialTable: React.FC = () => {
       render: (text: string, record: InventorySelectorReturnType) => (
         <div className="flex flex-row flex-wrap -mx-1 justify-right">
           <span className="p-1">
-            <Button size="small" type="default">
-              Update
+            <Button size="small" type="default" onClick={() => globalDispatch(checkoutInventory(record.id))}>
+              Checkout
             </Button>
           </span>
         </div>
