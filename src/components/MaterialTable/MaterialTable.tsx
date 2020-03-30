@@ -8,54 +8,7 @@ import CheckinForm from "../CheckinForm/CheckinForm"
 import { Material, updateMaterial, deleteMaterial } from "../../reducers/material/materialSlice"
 import { InventoryParam, checkinInventory } from "../../reducers/inventory/inventorySlice"
 
-type MaterialTableState = {
-  isUpdateModalOpen: boolean
-  displayCheckinFormMap: { [key: string]: boolean }
-  selectedMaterial: Material | undefined
-}
-
-const initialState: MaterialTableState = {
-  isUpdateModalOpen: false,
-  displayCheckinFormMap: {},
-  selectedMaterial: undefined,
-}
-
-function reducer(state: MaterialTableState, action: { type: string; payload?: Material }): MaterialTableState {
-  switch (action.type) {
-    case "UPDATE_MATERIAL":
-      return {
-        ...state,
-        isUpdateModalOpen: true,
-        selectedMaterial: action.payload,
-      }
-    case "SHOW_CHECKING_FORM":
-      return {
-        ...state,
-        displayCheckinFormMap: {
-          ...state.displayCheckinFormMap,
-          [action.payload!.id]: true,
-        },
-        selectedMaterial: action.payload,
-      }
-    case "CLOSE_UPDATE_MODAL":
-      return {
-        ...state,
-        isUpdateModalOpen: false,
-        selectedMaterial: undefined,
-      }
-    case "HIDE_CHECKING_FORM":
-      return {
-        ...state,
-        displayCheckinFormMap: {
-          ...state.displayCheckinFormMap,
-          [action.payload!.id]: false,
-        },
-        selectedMaterial: undefined,
-      }
-    default:
-      throw new Error()
-  }
-}
+import reducer, { ACTION_TYPE, initialState } from "./MaterialTableReducer"
 
 const MaterialTable: React.FC = () => {
   const materials = useSelector((state: AppState) => state.material.materials)
@@ -64,11 +17,11 @@ const MaterialTable: React.FC = () => {
 
   const onUpdateSubmit = (materialInfo: Material) => {
     globalDispatch(updateMaterial(selectedMaterial!.id, materialInfo))
-    localDispatch({ type: "CLOSE_UPDATE_MODAL" })
+    localDispatch({ type: ACTION_TYPE.CLOSE_UPDATE_MODAL })
   }
 
   const onCheckinSubmit = ({ stock }: InventoryParam) => {
-    localDispatch({ type: "HIDE_CHECKING_FORM", payload: selectedMaterial })
+    localDispatch({ type: ACTION_TYPE.HIDE_CHECKING_FORM, payload: selectedMaterial })
     globalDispatch(checkinInventory(selectedMaterial!.id, stock))
   }
 
@@ -100,7 +53,7 @@ const MaterialTable: React.FC = () => {
       render: (text: string, record: Material) => (
         <div className="flex flex-row flex-wrap -mx-1 justify-right">
           <span className="p-1">
-            <Button size="small" type="default" onClick={() => localDispatch({ type: "UPDATE_MATERIAL", payload: record })}>
+            <Button size="small" type="default" onClick={() => localDispatch({ type: ACTION_TYPE.UPDATE_MATERIAL, payload: record })}>
               Update
             </Button>
           </span>
@@ -115,9 +68,9 @@ const MaterialTable: React.FC = () => {
               type="primary"
               onClick={() => {
                 if (displayCheckinFormMap[record.id]) {
-                  localDispatch({ type: "HIDE_CHECKING_FORM", payload: record })
+                  localDispatch({ type: ACTION_TYPE.HIDE_CHECKING_FORM, payload: record })
                 } else {
-                  localDispatch({ type: "SHOW_CHECKING_FORM", payload: record })
+                  localDispatch({ type: ACTION_TYPE.SHOW_CHECKING_FORM, payload: record })
                 }
               }}
             >
@@ -139,7 +92,7 @@ const MaterialTable: React.FC = () => {
         maskClosable
         footer={null}
         style={{ maxWidth: 450 }}
-        onCancel={() => localDispatch({ type: "CLOSE_UPDATE_MODAL" })}
+        onCancel={() => localDispatch({ type: ACTION_TYPE.CLOSE_UPDATE_MODAL })}
       >
         <MaterialForm onSubmit={onUpdateSubmit} defaultValue={selectedMaterial} />
       </Modal>
@@ -150,7 +103,7 @@ const MaterialTable: React.FC = () => {
         maskClosable
         footer={null}
         style={{ maxWidth: 450 }}
-        onCancel={() => localDispatch({ type: "CLOSE_UPDATE_MODAL" })}
+        onCancel={() => localDispatch({ type: ACTION_TYPE.CLOSE_UPDATE_MODAL })}
       >
         <MaterialForm onSubmit={onUpdateSubmit} defaultValue={selectedMaterial} />
       </Modal>

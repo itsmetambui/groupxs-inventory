@@ -8,7 +8,7 @@ import rootReducer, { AppState } from "./reducers/rootReducer"
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["material"],
+  whitelist: ["material", "inventory"],
 }
 
 const middleware = [
