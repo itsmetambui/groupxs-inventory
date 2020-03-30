@@ -36,8 +36,9 @@ const inventorySlice = createSlice({
     checkinInventoryFailed: loadingFailed,
     checkinInventorySuccess: (state: InventoryState, action: PayloadAction<InventoryParam>): void => {
       const { id, stock } = action.payload
+      const numStock = +stock
       state.inventory[id] = {
-        stock,
+        stock: state.inventory[id] ? state.inventory[id].stock + numStock : numStock,
         deliveryTime: new Date().toISOString(),
       }
       state.isLoading = true
