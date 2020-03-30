@@ -38,6 +38,14 @@ const materialSlice = createSlice({
     addMaterialSuccess: (state: MaterialState, action: PayloadAction<Material>): void => {
       state.materials.push(action.payload)
     },
+    updateMaterialStart: startLoading,
+    updateMaterialFailed: loadingFailed,
+    updateMaterialSuccess: (state: MaterialState, action: PayloadAction<Material>): void => {
+      let material = state.materials.find((material) => material.id === action.payload.id)
+      if (material) {
+        material = action.payload
+      }
+    },
   },
 })
 
@@ -60,6 +68,23 @@ export const addMaterial = (info: MaterialInfo): AppThunk => async (dispatch) =>
   }
 }
 
-export const { addMaterialStart, addMaterialFailed, addMaterialSuccess } = materialSlice.actions
+export const updateMaterial = (id: string, info: MaterialInfo): AppThunk => async (dispatch) => {
+  try {
+    dispatch(updateMaterialStart())
+    const material = await api.updateMaterial(id, info)
+    dispatch(updateMaterialSuccess(material))
+  } catch (err) {
+    dispatch(updateMaterialFailed(err.toString()))
+  }
+}
+
+export const {
+  addMaterialStart,
+  addMaterialFailed,
+  addMaterialSuccess,
+  updateMaterialStart,
+  updateMaterialFailed,
+  updateMaterialSuccess,
+} = materialSlice.actions
 
 export default materialSlice

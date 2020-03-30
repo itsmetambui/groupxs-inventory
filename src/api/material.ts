@@ -9,3 +9,11 @@ export const addMaterial = async (material: MaterialInfo) => {
     ...material,
   }
 }
+
+export const updateMaterial = async (id: string, material: MaterialInfo) => {
+  await sleep(1000)
+  return {
+    id,
+    ...material,
+  }
+}
